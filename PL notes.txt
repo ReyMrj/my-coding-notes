@@ -1,0 +1,327 @@
+----------------------------OPEN MP NOTES:-----------------------------------
+
+-used in parallel computing
+
+-Moore's law: the number of transistors incorporated  in a chip would approximately double every 24 months = it means more and more performance with time and also train people to expect that performance comes from hardware
+
+-computer architecture and the power wall: power in terms of performance , power=perf^1.74
+growth in power is unsustainable 
+capacitance c= q/v  so work w=cv^2 and pwoer is work over time or how many times in a second we oscillate the circuit  , power= W*f
+
+- if you split a system of  an input through a chip (processor) with an output at frequency  to  two cores on the same chip (two processors cores) with f/2 frequency each , you get the same output but the power is 40% decreased , so what happened? im getting the same output with f with one core and f/2 with two cores ! but 40% of the power !
+
+- thats the reason behind parallel computing , it allow us to get the same amount of work done at a lowel frequency with the more number of cores and saves alot of power consumption 
+
+-now parallel computing is all about sofwtare , you have to parallelize your code 
+
+-------------------------------------------------------------------------------------------------------
+AVX NOTES:
+-----------------------------------------------
+when u write vectorized code u exploit the modern cpu abilities to process blocks of data at a time , instead of adding just a number a+b , u can add two vectors of length a  and length b 
+
+-u can use intrinsics to speed up relatively easily and in top of that u can do all types of parallelism like threading 
+
+-gpus are highly vectorized  and faster for large data  ,  in cpus you need to vectorize the code ur self because the compiler rarely does it for u .
+
+
+-WHATS SIMD AND WHAT ARE THE TYPES OF VECTORIZATION IN MODERN PROCESSORS?
+ --- Parallel Programming:
+ we often use multithreading which is MIMD: MULTIPLE INSTRUCTION MULTIPLE DATA 
+
+-here you have multiple threads running on multiple processors in a process managed at a relatively high level by the os , those threads could be working all on teh same task but not necesaasarily sycnhronised so they might finish slightly at different timees
+or even multiple tasks ! it's multiple instructions remember?
+
+-SIMD(vectorized):  all the processes managed at the hardware level , in teh core of the processsor itself , tehy are all running of the same clock and every element is working on teh same instruction
+it's less flexible than mimd but works best in scientific computing graphic etc where u want to do the same thing to a large pack of data . for example u wnat to take two arrays and multiply them or whatever , SIMD Is perfect for that 
+
+- when we say simd instructions we say vector instructions 
+
+- avx instructions now support over 512 bits 
+
+----AVX and AVX2: in scientfic computing we are interested in floating points ratehr than fixed points integers 
+
+how do u use them? set up ur compiler to enable vector optmization , for example use the o3 flag in gcc 
+and also customize ur code to look something like a simd code , for example unfold ur loops to a factor of 4 or 8 or something  , buuuuuutttt it doesnt serve the purpose , so u have to kinda use more stuff to make the compiler vectorize ur code . 
+
+use intrinsic functions !
+
+-they map directly to some assembly functions , it's like u are telling teh compiler to use this specefic  cpu vector instruction but how exactly would that happen is up to the compiler 
+
+- on assmebly your code maps directly to binary machine code , theres no compiling needed  .
+
+-An example of AVX intrinsic :   
+c = _mm256_add_ps(b,a) 
+ba are inputs and c is the output 
+/** this instruction maps to the assembly instruction  vaddps ymm2,ymm2,ym0
+
+
+-in a standard c loop we have: 
+
+for(_int64 i=0;i<n;i++){
+sumTotal+=A[i];
+
+}
+
+
+-the equivalent avx intrinsic of this loop is something like this:
+
+for(_int64 i=0;i<n;i+=8{
+sumTotal256=_mm256_add_ps[A256,sumTotal256];
+
+}
+
+the second one is significantly faster! our inputs and outputs are no longer single floats of 32bits , tehy are special 256 bit vectors composed of 8 float 32s , they are just little mini length 8  arrays  
+
+it reaches almost 11 times faster when u use intrinsic loop
+
+
+**/
+
+-O2 vectorisation doesnt do a great job optimizig the code manually 
+
+
+------BUT HOW DO WE USE INTRINSIC FUNCTIONS IN OUR CODE??????
+
+1-include the header file 
+/**  
+#include <immintrin.h> // supports VX, AVX2 ,FMA, AVX512
+ 
+
+-ALL AVX instructions start with mm256
+
+-when working with intrinsics we will be working with special data types that are effectively just like regular arrays with some special memory alignment requirements
+
+-they are 64 bits or 128 bits or 156 bits 
+_m64 , _m128 , _m128i , _m128d ... et c
+
+-when u see _m128 it means it consists of  128 bit block ( 4* float 32)
+- each type is a pack of bits each representing a min of 8bit integer 
+
+**/
+
+
+- in AVX we work with the 256 type
+
+
+-when we work with avx memory should be aligned to memory boundaries ( a pointer should point to the start of the memory to be multiples of some number ) , ie use a chunk of memory for ur avx  instruction 
+
+- normally u would call amlloc to acllocate a chunck of memory 
+how to do it in code?
+
+_m256*A= aligned_alloc(ALIGN,sizeof(_m256)*N); // the returned vector must always be multiple of ALIGN 
+
+// do not forget to define ALIGN at the header file . 
+// define ALIGN 32 // ie give it 32 bits  and A has to be multiple of 32 bits bcz A is the boundary 
+
+---- if we split teh instruction to see whats going on we have : 
+
+ _mm256_add_ps = mm256 means 256 bits , add is the type of operation , it could be multiplication or additin or anything else , ps is the data type ie packed singles and it normally refers to the output data type (packed singles mean packed 32s , u can find packed doubles that is pd) , or u ca  find epi32 = extended packed int32 and it varies from int 8 to int 16 to int 36 and more .
+ epu is for unsigned 
+ 
+-tehre are about 200 AVX intrinsic functions , we can group them into some categories:
+-arithmetic
+-logical operations 
+-load/store
+-comparisons
+-permuting,blend,insert/extract
+-broadcast,gather,scatter
+-math functions
+-conversion
+
+-----------------------------------------------------------------------------------------
+GPU Programming NOTES:
+------------------------------------------
+ ---Resources:
+ https://www.youtube.com/watch?v=wFlejBXX9Gk&list=PL3xCBlatwrsXCGW4SfEoLzKiMSUCE7S_X
+ 
+ -because of the increase in the clock frequency and improvements in the hardware  you can run the same c program u wrote before but this time it's faster 
+ - the amount of performance u can get was mainly related to the clock frequency of the cpu 
+ - the problem here was when u are increasing clock frequency u are also increasing power dissipation, so mainly u will reach one point where u are unable to increase the clock frequency
+ -the hilarious part is if  u continue with this trend u will have a power dissipation equal to a nuclear reactor hohohhohohohohohoho
+ 
+-HOWEVER, THE NUMBER OF TRANSISTORS can be increased , how?? 
+- this was the beginning of parallel programming with multicore cpus 
+
+- parallelism now needs to be exposed and managed becaus eit's in the hands of both the compiler and the programmer 
+-we use the words parallel programming or gpu programming interchangably 
+
+-FLOPs=floating point operations per second , they are used to emasure the speed of com[uting usually
+
+-parallel platforms?
+                1-SHARED MEMORY SYSTEMS(MULTICORES): cpu mainly //your hardware have multicple cores running together and they share a common RAM where all teh data is stored
+                2-DISTRIBUTED SYSTEMS(cluster):they have the highest flops. super computers like//you have multiple machines in a distributed setup , we call it a cluster, they are all working together but theres no common memory, each node has its own RAM..if u want to acces something that is in another node u need to request and access its Ram and get the data u need
+                3-Graphics processing units(many-core): gpu mainly
+                //they are not standalone machines,they are housed inside anotehr cpu,RAM...etc , so it basically helps teh cpu perform certain operations
+                //u have a seperate memory for the gpu and cpu as well connected by buses 
+                4-Field programmable gate arrays (confirgurable after manufacturing)
+                5-application specefic integrated circuits
+                5-Heterogenous systems- collection of all of the previously mentioned parallel platforms
+                   
+                 
+- overall it's not very wise to compare the power of cpus and gpus but rather work with both of them to get things done in your application
+
+
+---if we are talking about programming then : 
+-the file u are storing ur codes in should be named .cu file >>>> cu:CUDA
+-instead of compiling with gcc u need to  compile with NVCC=nvidia cuda compiler
+- if u take ur usual c programs and store them into a file .cu and run them with nvcc they are still running on cpu not gpu , when do they ened the gpu to be exceuted.?
+/* modify the usuall hello program code to this code :*/
+
+           #include<stdio.h>
+           #include<cuda.h>///important
+           
+          __global__void dkernel(){
+          printf("hello word . \n");
+          }
+           int main(){
+           dkernel<<<1,1>>>();// kernel call or kernel launch on the gpu with a single thread
+           cudaDeviceSynchronize();//call this method to make sure that hello world u are trying to print becomes available , it's used between gpu and cpu , mainly for teh cpu to wait until gpu excutes the queue that is full of kernels
+           return 0;
+           }
+                
+
+BUUT? WHATS CUDAAA? , cuda originally started as programming language, now it's no longer only a language  now it's a framework or architecture involving teh gpu as well as the language , as well as how diff language constructs operate withing the hardware 
+// an interface between ur program  and the hardware *thats ur gpu* is called a driver so when u install cuda a driver is required to be installed as well. this driver will take the instructions that were required to be done and excute them on the gpu ,it's all part of cuda
+
+
+-important remark: cpu function and gpu kernel run asynchronously, independently . when a kernel is launched on the gpu teh cpu is going to excute the rest of the instructions it's not going to wat for the the gpu
+ 
+-remark: -the kernel calls are in some sort of a queue , if you ahve multiple instances of hello world programs so the calls are going to be excuted sequentially , if u want them to run in parallel theres a method 
+         -NVCC is an extension to gcc and therefore it knows the cpu part and the gpu part
+
+vid2:computation---
+- now if we keep the same code used previously but we change the numbers inside from        1               to             dkernel<<<1,32>>>0;
+//this essentially launches the kernel with more than one threads , in this case 32 threads , if u compile  and run the programm u will get hello world 32 times , but pay attention that the threads are running in parallel , so we dont know precisely which thread is printing hello world before the other, threads write into indicidual bufefrs and then the buffers get concatinated 
+
+/* so basically tehres no sequentail order in which the threadsare running, all threads are running in parallel*/
+
+-p.s: if lets say we have 1000000 cores on our gpu , then only the exact number of threads will be running on ur gpu , any additional thread that exceeds the number of cores will use what we call time sharing and be scheduled to run later 
+-drivers are software components , wheras scheudling is done in the hardware
+-if u wantt to know which thread is printing hello world , u can print the thread id alongside the message
+-the number of hardware cores on teh cpu or even on the gpu is going to be the max parallelism at any point of time 
+- all the threads running on the gpu share the ram available on the gpu 
+-tehres a part of those threads that share what we call instruction pointer , meaning they will be executing the same instruction 
+-apart from this , threads have their own cache , registers stack .. etc
+- if we say a gpu is single precision or double precision we mean that the processing done by the cpu is single or double precision
+    /* single precision means u are using float as data type 32 bit to represent ur data 
+    if u wnat larger precision , u use what we call double precision:that is doubel teh size 64 bits */ 
+===back to programming notes:
+- a kernel always returns a void , it doesnt return anything , u can create multiple kernels  /* __global__void dkernel(){
+          printf("hello word . \n");
+          }
+          */
+
+-u cant do system calls inside the void kernel , u can have arbitary c code  of arithmetic operations and printf , tehre are other restrictions
+
+- why do we call them threads? because tehy are lightweight processes , they pften dont have a mempry , tehre's a memory that is shared among the threads , they have access to the same RAM
+
+- a core is a single execution hardware unit where the programs are running
+-one thread is going to run on a core at a time , but the max level of parallelism will happen when using time multiplexing
+- a thread might jump from one core to another , it maybe running on one core at a random point in time but it maybe running on a different core at another point of time 
+-this happens on both cpu and gpu  
+- not necessarily that any code uses cuda is running in paralel , u can run sewuential code inside the  launched kernel , then call the kernel in teh main that will excute one thread at a time , this is running sequentially an not in parallel actually .
+for example 
+
+
+#include <stdio.h>
+#include<cuda.h>
+#define N 100
+__global_void fun(){
+printf("something")
+}
+ int main(){
+ fun<<<1,N>>>();//this lines means the fun kernel will be invoked N times ,and each time it is invoked one thread will be running 
+ cudeDeviceSynchronize();
+ return0;
+ }
+
+//u can print the thread id in printf , bu the order in which those threads run is not under ur control  
+-using for loops on cpu makes it run the threads sequentially , but when u switch to cuda programs dont use for loops
+
+-all the parameteres u pass to the kernel are sued by all the threads running in this kernel 
+
+REMAAAAARQUE:u can use #define constants arbitrarily in cpus and gpus  because their values will be replaced before compilation anyways , but be careful with global variables , global variables will be assigned inside the cpus memory and those are not visible to the gpu so be careful about those 
+
+-global variables should be send to the gpu
+
+
+-----EXAMPLE:-----
+write the cuda program corresponding to this sequential code:
+
+#include<stdio.h>
+#define N 100
+int main(){
+int a[N],i;
+for (i=0;i<N;i++)
+a[i]=i*i;
+return0;
+}
+
+
+//careful: in this program the array a[] is stored in cpu memory , the gpu cant access it 
+//so the issue is mainly how to pass an array as a parameter in case of gpu programming knowing that
+
+SOLUTION:
+
+-We know that cpu and gpu memories are seperate so how can an array that is declared on the cpu be accessible by the gpu?
+
+
+ 
+#include<stdio.h>
+#include<cuda.h>
+#define N 100
+__global_void func(int *a){// a is passed as a parameter and it's common between all threads running on the gpu , N threads
+a[threadidx.x]=threadidx.x*threadidx.x;
+}
+int main(){
+int a[N], *da;
+int i;
+  cudaMalloc(&da,N*sizeof(int));
+  func<<<1,n>>>(da);// we passed da as a parameter here , notice teh other code doesnt have parameters inside the call , this da is a pointer pointing to an array on the gpu , so we need to allocate memory for this , in c u use Malloc() , here we use cudamalloc(), but how much memory do i need? N into size of integer  amount of memory on the gpu also  and therefore we are gonna allocate the memory THEN ASSIGN IT TO da , the pointer
+for (i=0;i<N;++i)//this is to print it on cpu
+    printf("%d\n",a[i]);
+    return 0;
+}
+
+// what we did here , is pass an array which is declared onto the gpu, so we use a pointer that points to a memory that we allocated on the gpu
+
+--general notes taken from this problem:
+-all these variables i, da,a are allocated on the stack  of the cpu
+-malloc is located on the heap of the cpu
+-stack and heap are allocated on the same RAM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

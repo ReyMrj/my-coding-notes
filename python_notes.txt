@@ -1,0 +1,11 @@
+1-
+"""
+This is a multiline comment.
+Python treats it as a string,
+but it is ignored if not assigned to a variable.
+"""
+2-
+program= r"""...""" #this is a raw string  assigned to a python variable
+
+
+

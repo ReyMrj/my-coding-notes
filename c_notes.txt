@@ -1,0 +1,16 @@
+-if u are using a language like java , u probably running it on jvm , that itself is written in c, cpp or lower level languages.
+
+- c is somehwat like java , in being imperative languages, the instructions you write are telling the computer what to do , they specefiy how a computation should be performed, but their building blocks are different .
+
+-in java u workwith objects , classes , use oop 
+-in c we dont have language support for objects , we work with procedures , that are called methods in java .
+-designing a big project means deciding what kind of procedures we are gonna use and how will theyw ork with each otehr.( a procedure is a function)
+ 
+-the opposite of imperative languages is declarative ones.in declarative ones , the declarative languages let the programmmer describe what should be computed without making a commitement to how exactly it should be computed.(html for example , that is a markup language but falls under declarative languages)
+
+-languages like cpp , perl , java , c# borrowed alot of ideas from c , they came after c.
+-c runs faster than java
+-sometimes c prgrms depend on the machine or system u are using , unlike java that is compiled with ajva compiler and run on jvm . c is sometimes open to unpredicted stuff.
+
+ 
+ 

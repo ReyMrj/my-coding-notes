@@ -1,0 +1,656 @@
+-------------------------vid1
+
+sayMeow(){
+    /*  methods take parameters and have the possibility to return a value 
+     if it doesnt return any value we call it void sayMeow();
+     this is a metod we want to describe whhat we are trying to do as a behavior
+    */
+    system.out.print( "my name is"+ this.name);
+    /* we used this.name here instead of name alone ,
+    because we can ahve more than one instance that we call the method on it 
+    this.name is simply changing this keyword by the instance each time .
+     */
+   c.sayMeow();
+   /*
+   we are calling  a method on the object c that we created ,
+    so what we are syaing in short , 
+   create the object c then execute the function saymeow 
+    c is the instance executing the ebhaviour 
+   */
+}
+ cat d= new cat()
+ /* cat is the type , d is the identifier , new is a keyword cat()  is a constructor 
+  a constructor looks like a method but has the same name as ur class  , we use it to instatiate , the 
+  constructor doesnt return values , it returns the  reference of the instance as an address in memory
+  default constructors are automatically declared in java
+ */
+ --------------------------vid2
+ there are two types of data in java : primitives which are numeric values, characters , boolean 
+                                       refrences or objects
+ /* when u declare a local variable inside a class or method ,
+ initialize the variable before working with it , otherwise it will rise a compilation error
+ */
+ 
+ 
+ /* in case of objects or refrences , the values are defined by default 
+ */
+ 
+ 
+ // a=1333333333L;  THIS L IS OF LITERAL OR LONG DATA TYPE , WE ADD L BECAUSE THE COMPILER EXAMINES THE NUMBER THEN ASSIGNS IT
+ 
+ 
+ // every decimal number in java is a double , every integer is of type intjjj
+ // double = float but the other way around is an error   
+ 
+ int i1 =  (int) d1; // transform before assigning so u avoid errors 
+ 
+ 
+ char = 'c1';  /* in a char u can only store one character 
+ , meanwhile in a string u can store multiple chars */
+ 
+ int i1 =c1 // runs without a problem because a char is numeric stored  , char it has 2bytes
+  // int has 4 bytes 
+  
+  ------------------vid3 
+  
+  // in java the conditions are always of type boolean 
+  // use ternary operator ?:
+  // boolean condition = true;  
+  // we need a condition and we need something to be elauated if the condition is true ie , a result
+  int result = condition ? 50 : 100;// the result will be 50 if the condition is true ,otherwise 100 
+  // u have to declare condition first as a boolean to be able to work with the ? iperator
+  // also the values of result have to match the type int 
+  
+  
+  // in java u can only have a boolean type of onditions , means true or false , u cant have 0 or 1 or null 
+ // we can get inputs from the user or the console using scanner class as follows 
+ 
+ 
+public static void main (STring [] args ){
+
+scanner s = new scanner(system.in);
+int x = s.nextInt();
+system.out.print(" X is :");
+int y=s.nextInt();
+system.out.print(" Y is :");
+}
+ 
+ // we can have nested ternany conditions
+ 
+ int result = 20>40? 5<10? 10:40:50 // add paramthesis  (5<10? 10:40)
+ int result = condition ? () : 50;
+ 
+  //--if else
+  boolean condition = true;// make sure this is of type boolean , otherwise it's an error
+  if (condition){
+  system.out.print("it's true"); // this if is only exectuted for condition true
+  // if u dont use the braces , only the first instruction is going to be executed  inside the if statement 
+  
+  /* for example if we do this :
+  
+  if (condition )
+ system.out.println("my name is touta" );
+ system.out.println("this lne of code is out of if statement and it will eb printed independently of the condition")
+  
+  
+  */
+  
+  
+  }
+  
+  
+  
+  
+  now  switch 
+  
+   // inside the switch there can be only variables of type char , int , string , enum  but NO BOOLEAN 
+   // A BOOLEAN TYPE VARIABLE IS AN ERROR INSIDE A SWITCH 
+   
+   so 
+   
+   int x = 9;
+   
+   switch(x){
+   
+   case 1:
+   // do smth
+   break;
+   
+   // it wont do anything unless the value of x matches the value on the case label
+   
+   }
+ 
+------------------------------------------------- Vid8
+  
+  
+  //if we are dealing with a local variable , ie u are declaring x as final inside the main  method and not a class , it hsould be smth like this 
+  
+   final int x;
+   x=10;
+   x=20;// this is overloading x but it will cause an errorbecause x is of final type . 
+    or
+    use var 
+    
+    
+   final var x=10;
+   
+   
+  we are not forced to assign any value to x here , when we work with it the valaue will be assigned .
+  
+  but when we work inside a class, where x is actually an attribute of the class , we have to assign a value . 
+ 
+ public class dog{
+  final string name ="bob"; // this cant be changed  
+ 
+ 
+ }
+  
+ /* as a solution for this , we want to declare our attributes that need to be final variables , but we dont want the assignement to be fixed . to avoid the compilation error , the location in memory for the class bottle for example and its attribute volume is created when we do an instance of the class , so we bring the notion of constructors here as follows :
+ 
+ */
+ 
+ public class bottle {
+  final double volume; // do not assign any values now 
+  l;
+  bottle( double volume ){
+  this.volume= 10 ;
+ }
+ }
+ 
+ //now we can create this 
+ 
+ 
+ public classs example {
+ 
+ public static void main (String[] args ){   
+ 
+ // here we try to test the whole thig , by instantiation 
+ 
+ bottle b1= new bottle( volume:1);
+ bottle b2= new bottle (volume:2);
+ 
+ // each instance can have another value 
+ 
+ b1.volume=2;// errror , because volume is final , u can assign only one value 
+ }
+ 
+ }
+ 
+ 
+ 
+ -------------
+ 
+ so whats static? 
+ 
+ // we can use static to declare only class attributes, u cant have static variables locally (inside methods , constructors ,, etc)
+ // use static only on class attributes 
+ 
+ 
+ int x;
+ static int y;
+ 
+ 
+ y is a class variable now , u dont need to have instances for y to work with it , 
+ for x we can have many instances of the class foo for example , each is a varibale
+ 
+ foo f1= new foo ();
+ foo f2 = new foo();
+ 
+ f1.x=10;
+ f2.x=20;
+ 
+ but in case of y :
+ 
+ foo.y= 10;// access y directly 
+ 
+ // when it's non static , means the variable is an attribute and you need an instance to refer to it , but when it's static , it's the only variable per class  and y takes the least value assigned to it because y exists only once and when u overlaod the value of y it changes 
+ 
+ foo.y=13;
+ f1.y=16;
+ f2.y=6;
+ 
+ print f1.y  = 6 
+ 
+ ----------------------------------------vid9
+ arrays 
+ 
+ int[] x;
+ x= new int [5]; //this  5 can not be changed , if i want to chnag ethe length of the array i have to create a new instance 
+ x = new int[6];
+ 
+ 
+for (int i =0;i < x.length ; i++){
+
+system.print.out(x[i]);
+
+}
+ 
+ 
+ --------------------------------i watched only vid 9 of arrays and no vid 10, speedwatched vid 11 and didnt watch vid 12 
+ 
+ ----------------------------- vid 11
+ varargs
+ 
+ 
+ // a varargs is just a variable arguments case , whee u can call methods each time with variable number oof parameteres
+ static void m1(int ... a){}   
+ 
+ u can call it in the main method this way 
+ m1();
+ m1(1); 
+ m1(1,2,3),
+ 
+ if u want to print the values , u can just use arrays
+ 
+ system.print.out(a[0]); // if any values are tehre , to avoid errors , put for loop before 
+ for (int i =0;i<length;i++)
+ 
+ // always declare the varars as the last parameter , and it's allowed to declare only one parametere of this type .
+ 
+ static void m2(string x , int ... y);
+ 17:25
+ 
+ ----------------------vid13 packages 
+ 
+ 31:38  GEETT BACK TO ACCESS MODIFIERS
+ 
+ 4 access mode , and 3 access modifiers ,
+ if u dont specify anything it's default access mode , or package mode
+  never use access modifiers on a local variable inside a block if instructions or a constructor , it is used only with the attributes of the class 
+ 
+ // default : access inside the package by all the classes 
+ // private , it can only be accessed by the class that declares it , not even other classes of the same package 
+ // public  can be accessed everywhere
+ 
+  // protected : when smth is protected , u can acces it inside the package , and sometimes also outside the package , if a class inherits the class that declared the variable 
+ 
+ if we put them in order we can say :
+ 
+ public 
+ protected 
+ default 
+ private
+ ----------------------------------------------- VIDEO 14 ENHERITANCE AND ENCAPSULATION
+ 
+  encapsulation 
+  it is mainly controlling the access to an attribute , so instead of calling the attribute itself u will call a behavior of the attribute , it is built on methods called the getters and setters , u define them inside the class instead of making the variables privates  . and then call the method in the rest of the code for a potential change .
+  
+  the methods should be created as public so they can be accessed in tthe code .
+  also if u are creating a getter for a string type  attribute , the method should return a string type 
+ 
+ 
+public class Cat {
+
+    Private String name;
+    Private int age;
+    
+    Public String getName(){
+     return this.name;
+    }
+ 
+     public void setName(String name ){
+     this.name= name;
+     } // the setter doesnt return anything it only changes the value of the field 
+        // u have to set a parameter for the setter
+
+}
+  // in case of boolean type ,  replace get with is 
+ 
+ now call the methods . 
+ 
+ 
+ instead of 
+ cat c1 = new cat();
+ 
+ c1.name= "tom";   
+ c1.age=10;
+ 
+ use setters
+ 
+ c1.setName("tom");
+ c1.setAge(10);
+ 
+ and getters 
+ system.out.println(c1.getName());
+ 
+ // ur fields have to be private 
+ 
+ 
+ ----------inheritance :
+
+ extends = is-A relation between two classes 
+ a class extends anothers class means it enhirts it's fields and methods , u can add fileds in the enhirited class or addd methods or change existing methods , how ? by overriding 
+ 
+ -----------------------------vid 15 overriding 
+ 
+  for overriding we use the same parameters and return type of methods , 
+ but we change the mrthod 
+ 
+ 
+ if class b extends class a  and class a has private methods , clas b can not override class a methods , instead it just recreates the methods 
+ 
+ if class a has an access modifier protected for example , when u enhirit the method in class b use the same access modifier or something more ppublic , u cant use something more private than then parent class access modifier 
+ 
+ // if u change ur method parameters it's no longer overriding , it's oveloading
+ 
+ overloading is having the same methods in a class with the same mofifier but different parameters 
+ different in number or type or order of types . 
+ it still compiles but it's not overriding jj 
+ 
+ // in case of exception , if the  parent class has a method m() st 
+public class A { 
+ void m() throws IOException{}
+ }
+  aND 
+  
+  public class B extends A {
+   
+   void m() {} // correct overriding 
+   void m() throws IOEXception{} // correct overriding 
+   void m() throws FileNotFound exception {} // correct overrdiing because filenot found inheriits ioexception that itself inherits exception 
+   
+   void m() throws exception{} // error , u can not throw a more wider exception than the method u are overriding 
+  
+  }
+  
+  the use of @override  notation 
+  
+  overriding is only for methods , whereas oveloading is for methods and constructors 
+  the access modifiers are not important when we overlaod , u can overlaod a static method with non static method , a private or public method , but it's not the case with overriding 
+ 
+ when a method is final , u cant override it anymore 
+ and a final class can not be extended anymore 
+ 
+ overloaind doesnt care about final 
+ 
+ u cant override static methods as lwell . 
+ u will never be able to override methods without inheritance 
+ 
+ 
+ ------------------------------------vid16 super
+ whenu instantiate an object , class b extends class a for example , the copiler doesnt execute the code in class a directly , it first checks class A ad executes the codes tehre , then comes back to class B 
+ // finish the code in class a then execute class b code 
+ 
+ 
+  if u make the constructor of a privae , then the extended claas b will have a compilation error , because it can not build ur object , constructor b calls constructor a to see what is it then build the object b , but if there is no constrcutor in a then the class b will not compile 
+  
+ 
+ even if u change the constructor of class a from default to constructor with parameters , the compilation error will happen , because the constructor in class b is 
+ 
+ public B ()
+ {}
+ 
+ it doesnt have the same signature as the new created constructor of a 
+ for example : 
+ public a (int x) {}
+ 
+ // to solve this  the most basic solution is add a constructor in class a without parameters . but it's not practical , tehre are other solutions 
+ 
+ 
+ // u can use the super keyword in ur b constructor as a first instruction just after the declaration of the constructor  u cant even have a system out ptintlk before , make it the fisrt instruction 
+ 
+  if class b ahs more than one constructor , u should do the super keyword fpr all the constructors ,  by calling the constructor in a , doesnt matter if constructor in B matches the constructor in a as long as it's not default construuctor use super keyword 
+  
+  //u can use this()  keyword  instead of super () , and u erfer to one of the overoloaded constructors in class B ,  this keyword only works inside a constructor , 
+  
+  public b (int x ){
+  this(); // here im refereing to the default constructor of class b   because this has no parameters 
+  
+  // when u print the values u will get the values of constructor a then b then the new overlaodded constructor 
+   // u cant have super multiple times , u cant have super and this at the same time , and u can only have them as the first instruction 
+   
+   
+   
+   u can use super and this for instances without the () , they will in this case refeer to instances 
+   
+   for example :
+   
+   class A {
+   
+   int x;
+   
+   }
+   
+ class b extends A {
+  string y;
+  
+  
+ 
+ public b (){
+ this.x= 10;
+ super.x= 20;
+ 
+ this.y=3;
+ // but u cant do super.y because super only refer to a super class instance 
+ 
+ }
+ }
+ 
+ 
+ u can use them in constructors or methods 
+ 
+ 
+ 
+POLYMORPHISM :
+
+
+if u have two classes a and b , b extends a , u can do this :
+ A a1 = new B();// u can store refrences of class B in A  because A is the parent class of B 
+ 
+ --------------------------------- vid 17
+ public class example 1 {
+ 
+ public static void main (strings [] args ){
+  B extends A 
+ A a1 = new B();// this is possible in polymorfism 
+ // u can assing a new b pbject to a reference of type A
+ and u can do 
+ B b1 = (B) a1; // u cant directly assign a variable of type A to  an object of type B , unless u do casting 
+ in  case of methods , it doesnt matter from where i call the method , wheteher it's A or B 
+ 
+ b1.m();
+ a1.m(); // they are both overidden methods and will do the same exact thing that method m() does 
+ 
+ 
+ }
+ 
+ }
+ 
+ example :
+ 
+ 
+ 
+ // if animal is the parent class , u can create child classes dog , cat that extends animal .
+ and u can do this : 
+ 
+ Animal a1 = new Cat();
+ Animal a2 = new dog ();
+ 
+ // the right side of the eual have to be always more particular  than the left part . if it's the other way around u have to use the conversion operator 
+ 
+ cat c3 = a3 // this is an error , u need to convert 
+ cat c3 = (Cat) a3;// this will compile // if u use dog instead of cat in the conversion it will compile but it will throw an exception that is classCast exception at the execution 
+ // so the value in the right have to be a cat or a more partuicular object of a cat 
+ 
+ when u try to do a conversion  between two child classes it's a compilation error 
+ 
+ 
+ 
+                                          ABSTRACTION:
+ // u cant access a method from a child class that is not available in parent class 
+  // if the parent class is shape and shape doesnt have an area method , u cant work with  area method on instances of the parent class in the main . 
+  
+ s1.area();//error
+ 
+ 
+ // when u use the term abstract , u make the method an abstract method but it wont actually be implemented in the class it will be overidden by the child classes instead of the parent classs
+ 
+ public abstract  class shape {
+ 
+ public abstract double area ();// this class cant create instances after declaring an abstract method 
+ 
+ // now u have to make the class abstract as well , it wont be usable of declaring instances , this class is incomplete and it ahs to be completed through inheritance by other classes 
+ 
+ // u can override abstract methods 
+  
+  // now u can only use this class to describe abstract  methods 
+  
+ //an abstract class can be abstract without containing any abstract methods or  any methods at all , u can juts make it abstract 
+ 
+  
+  // when u declare a method as final u cant be able to override it 
+   it will be inherited tho 
+   
+when u declare the class as final it wont be inherited at all 
+
+// u cant use final keyword with abstract  
+ }
+ 
+ ------------------------------------------- vid18------------------------------------
+ 
+                              INTERFACES:
+                              
+          // i can have an abstract class without abstract methods ,but the other waya round is not possible    , if u have an abstract method then the class have to be abstract itself 
+          
+     // u cant instantiate an abstract class 
+     
+     if 
+     public abstract class pet {
+     
+     prtecetd string name;
+     
+     public pet(){} // default constructor 
+     public pet (string name ){
+     this.name=name;     }
+     
+     }     
+      class  cat extends pet {
+      
+      public  static void main ( string [] args){
+      
+      pet p1 = new pet (); // this is a compilation error , u cant instantiate an abstract class 
+       
+      
+      
+// but u can declare constructors in the abstract class 
+// because any class that inherits another class will call first the instructor of the  parent class 
+// u can call those constructors from the child classes through the usper keyword example
+
+public class cat extends pet{
+
+public cat ()
+{
+super(name:"tom");
+// now we are able to carry on with instantiation 
+// when u  make 
+pet p1 = new cat(); // when u use the super keyword  here u are calling the constructor of the super class  cat(), so it will print anything that is there as a parameter 
+}
+}
+
+
+               more on interfaces:
+             //interfaces are automatically abstract theres no need to use the word abstract 
+             // in interfaces u dont need to specify the type of methods as  public and abstract , they are alreay abstract methods inside the interface 
+             // but inside abstract classes u need to specify the type of methods as abstract 
+             
+              // theres nothing as default mode or protected in interfaces
+                           // it ahs to be public methods to be abale to be orrrided otherwise it's a compilation error 
+                           
+     public interface playable{ // interface instead of class 
+    // even if u declare the variable without public static final in an interface , they are still there 
+     //for final u must provide a value  otherwise it's a compilation error and it has to be asssigned directly not inside a constructor 
+    
+     }            
+                              
+               public interface playable {// this is an abstract interface 
+               
+               int x=10;// public static final 
+               void play ();// public abstract method
+               }                 
+ 
+ 
+ example 
+ 
+ public class piano impelments playable { // tho code wont compile until u override the play() method in the piano class 
+ 
+ 
+ @override
+ 
+ void play ();// u cant use protected or private , only public in the methods of interfaces 
+ system.out.println("play?");
+ 
+ // u can do 
+ playable p = new piano();
+ p1.play();
+ 
+ }
+ 
+ //starting from java 8 the methods are now no longer without keyword , u can use the keyword default in fron of the method to be able to implemment some sort of instructions  for example 
+ 
+  default void () {
+  
+  system.out.println("hi");
+ 
+  }
+  
+ // and now u can have static methods 
+ static void w () {
+ system.out.println("random");
+ } 
+ 
+ //  starting from java 8 u can make methods private
+ 
+ --inheritance of interfaces // in classes u can only inherit one class , but with interfaces u can inherit multiple interfaces
+ 
+ public interface scary {}
+ public interface StoryCharacter{}
+ public class monster implements scary,StoryCharcter{}// u can as well implement another interface for the same public class 
+ // u can use as well extend before implements to inherit the classes 
+ // this is inheritance betwennclasses and interfaces 
+ // u can as well have inheritance between interfaces themselves 
+ 
+ // between a class and class use extends , between an interface and an interface use extends , between class and interface use implemnts 
+ 
+ 
+for example :
+
+public interface Foo{}
+public interface Baz{}
+public interface Bar{}
+ 
+ if i want baz to inherit the otehr two 
+ 
+ public intefrace Baz extends Bar, Foo {} // an interface can inherit two or more interfaces
+ // avoid using default methods only when needed 
+ 
+ 
+ ------------------------------------vid 28 Exceptions 
+  throwable //upper class represents all the objects thatcan be thrown 
+  exception class //inherits throwable class
+         RunTimeException 
+  error class // inherits throwable class as well 
+  
+ 
+ 
+ // exceptions are two types , 
+ checked exception   // exception class
+ unchecked exception (runtime)    
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
