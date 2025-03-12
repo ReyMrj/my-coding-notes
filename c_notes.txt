@@ -11,6 +11,6 @@
 -languages like cpp , perl , java , c# borrowed alot of ideas from c , they came after c.
 -c runs faster than java
 -sometimes c prgrms depend on the machine or system u are using , unlike java that is compiled with ajva compiler and run on jvm . c is sometimes open to unpredicted stuff.
-
+-
  
  
